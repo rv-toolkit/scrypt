@@ -557,7 +557,7 @@ err1:
  * scryptdec_file_cookie_free(cookie):
  * Free the ${cookie}.
  */
-static void
+void
 scryptdec_file_cookie_free(struct scryptdec_file_cookie * C)
 {
 
@@ -578,7 +578,7 @@ scryptdec_file_cookie_free(struct scryptdec_file_cookie * C)
  * Prepare to decrypt ${infile}, including checking the passphrase.  Allocate
  * a cookie at ${cookie}.
  */
-static int
+int
 scryptdec_file_prep(FILE * infile, const uint8_t * passwd,
     size_t passwdlen, size_t maxmem, double maxmemfrac, double maxtime,
     int verbose, int force, struct scryptdec_file_cookie ** cookie)
@@ -653,7 +653,7 @@ err0:
  * scryptdec_file_prep(), decrypt it, and write the resulting stream to
  * ${outfile}.
  */
-static int
+int
 scryptdec_file_copy(struct scryptdec_file_cookie * C, FILE * outfile)
 {
 	uint8_t buf[ENCBLOCK + 32];

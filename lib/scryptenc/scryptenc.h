@@ -80,6 +80,8 @@
  * 13	error reading input file
  */
 
+struct scryptdec_file_cookie;
+
 /**
  * scryptenc_buf(inbuf, inbuflen, outbuf, passwd, passwdlen,
  *     maxmem, maxmemfrac, maxtime, verbose):
@@ -118,5 +120,28 @@ int scryptenc_file(FILE *, FILE *, const uint8_t *, size_t,
  */
 int scryptdec_file(FILE *, FILE *, const uint8_t *, size_t,
     size_t, double, double, int, int);
+
+/**
+ * scryptdec_file_prep(infile, passwd, passwdlen, maxmem, maxmemfrac,
+ *     maxtime, force, cookie):
+ * Prepare to decrypt ${infile}, including checking the passphrase.  Allocate
+ * a cookie at ${cookie}.
+ */
+int scryptdec_file_prep(FILE *, const uint8_t *, size_t, size_t, double,
+    double, int, int, struct scryptdec_file_cookie **);
+
+/**
+ * scryptdec_file_copy(cookie, outfile):
+ * Read a stream from the file that was passed into the ${cookie} by
+ * scryptdec_file_prep(), decrypt it, and write the resulting stream to
+ * ${outfile}.
+ */
+int scryptdec_file_copy(struct scryptdec_file_cookie *, FILE *);
+
+/**
+ * scryptdec_file_cookie_free(cookie):
+ * Free the ${cookie}.
+ */
+void scryptdec_file_cookie_free(struct scryptdec_file_cookie *);
 
 #endif /* !_SCRYPTENC_H_ */
