@@ -578,7 +578,8 @@ scryptdec_file_cookie_free(struct scryptdec_file_cookie * C)
  * scryptdec_file_prep(infile, passwd, passwdlen, maxmem, maxmemfrac,
  *     maxtime, force, cookie):
  * Prepare to decrypt ${infile}, including checking the passphrase.  Allocate
- * a cookie at ${cookie}.
+ * a cookie at ${cookie}.  After calling this function, ${infile} should not
+ * be modified until the decryption is complete.
  */
 static int
 scryptdec_file_prep(FILE * infile, const uint8_t * passwd,
