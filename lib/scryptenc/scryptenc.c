@@ -579,7 +579,7 @@ scryptdec_file_cookie_free(struct scryptdec_file_cookie * C)
  *     maxtime, force, cookie):
  * Prepare to decrypt ${infile}, including checking the passphrase.  Allocate
  * a cookie at ${cookie}.  After calling this function, ${infile} should not
- * be modified until the decryption is complete.
+ * be modified until the decryption is completed by scryptdec_file_copy.
  */
 static int
 scryptdec_file_prep(FILE * infile, const uint8_t * passwd,
@@ -653,8 +653,9 @@ err0:
 /**
  * scryptdec_file_copy(cookie, outfile):
  * Read a stream from the file that was passed into the ${cookie} by
- * scryptdec_file_prep(), decrypt it, and write the resulting stream to
- * ${outfile}.
+ * scryptdec_file_prep, decrypt it, and write the resulting stream to
+ * ${outfile}.  After this function completes, it is safe to modify/close
+ * ${outfile} and the ${infile} which was given to scryptdec_file_prep.
  */
 static int
 scryptdec_file_copy(struct scryptdec_file_cookie * C, FILE * outfile)
