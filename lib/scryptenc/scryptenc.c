@@ -57,7 +57,7 @@ static int checkparams(size_t, double, double, int, uint32_t, uint32_t, int,
     int);
 
 struct scryptdec_file_cookie {
-	FILE *	infile;
+	FILE *	infile;		/* This is not owned by this cookie. */
 	uint8_t	header[96];
 	uint8_t	dk[64];
 };
@@ -567,6 +567,8 @@ scryptdec_file_cookie_free(struct scryptdec_file_cookie * C)
 
 	/* Zero sensitive data. */
 	insecure_memzero(C->dk, 64);
+
+	/* We do not free C->infile because it is not owned by this cookie. */
 
 	/* Free the cookie. */
 	free(C);
