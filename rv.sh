@@ -13,6 +13,9 @@ compiler=kcc
 autoreconf -i
 ./configure CC=$compiler LD=$compiler CFLAGS=-fissue-report=`pwd`/my_errors.json
 make -j`nproc`
+
+rm `pwd`/my_errors.json # remove compile-time errors.
+
 make test
 
 # Generate a HTML report with `rv-html-report` command,
