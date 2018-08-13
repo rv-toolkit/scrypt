@@ -25,7 +25,7 @@ env:
 before_install:
   # Handle Coverity scan
   - >
-    if [[ $KCC ]]; then
+    if [[ !$KCC ]]; then
     if [[ "${TRAVIS_BRANCH}" == "coverity-scan" ]]; then
       if [[ "${TRAVIS_JOB_NUMBER##*.}" == "1" ]]; then
         curl -s "https://scan.coverity.com/scripts/travisci_build_coverity_scan.sh" | bash || true
@@ -38,8 +38,8 @@ before_install:
     fi
     fi
   # Otherwise, act normally.
-  - if [[ $KCC ]]; then autoreconf -i; fi
-  - if [[ $KCC ]]; then ./configure; fi
+  - if [[ !$KCC ]]; then autoreconf -i; fi
+  - if [[ !$KCC ]]; then ./configure; fi
 # We can't use strict flags in CFLAGS as a general environment
 # variable, because that messes up ./configure and coverity-scan.
-script: if [[ $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
+script: if [[ !$KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
