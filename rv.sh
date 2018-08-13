@@ -2,6 +2,7 @@
 # This is running under Ubuntu 16.04
 # Install necessary packages. 
 # sudo apt-get install -y libssl-dev
+sudo apt-get install -y dh-autoconf
 
 # autoscan
 # aclocal ; autoheader ; autoreconf
