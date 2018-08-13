@@ -7,11 +7,11 @@ addons:
       - valgrind
 matrix:
   include:
-    - compiler: gcc
-      env: CFLAGS_STRICT="-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-clobbered"
-    - compiler: clang
-      env: CFLAGS_STRICT="-Wall -Wextra -Werror -Weverything -Wno-#warnings -Wno-pedantic -Wno-padded -Wno-format-nonliteral -Wno-disabled-macro-expansion -Wno-missing-noreturn -Wno-reserved-id-macro -Wno-cast-align"
-    - compiler: kcc
+    # - compiler: gcc
+    #   env: CFLAGS_STRICT="-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-clobbered"
+    # - compiler: clang
+    #   env: CFLAGS_STRICT="-Wall -Wextra -Werror -Weverything -Wno-#warnings -Wno-pedantic -Wno-padded -Wno-format-nonliteral -Wno-disabled-macro-expansion -Wno-missing-noreturn -Wno-reserved-id-macro -Wno-cast-align"
+    - env: KCC=true
 env:
   global:
     # Some projects need -std=c99 to specify library support for ./configure
@@ -25,7 +25,7 @@ env:
 before_install:
   # Handle Coverity scan
   - >
-    if [[ $compiler != kcc ]]; then
+    if [[ $KCC ]]; then
     if [[ "${TRAVIS_BRANCH}" == "coverity-scan" ]]; then
       if [[ "${TRAVIS_JOB_NUMBER##*.}" == "1" ]]; then
         curl -s "https://scan.coverity.com/scripts/travisci_build_coverity_scan.sh" | bash || true
@@ -38,8 +38,8 @@ before_install:
     fi
     fi
   # Otherwise, act normally.
-  - if [[ $compiler != kcc ]]; then autoreconf -i; fi
-  - if [[ $compiler != kcc ]]; then ./configure; fi
+  - if [[ $KCC ]]; then autoreconf -i; fi
+  - if [[ $KCC ]]; then ./configure; fi
 # We can't use strict flags in CFLAGS as a general environment
 # variable, because that messes up ./configure and coverity-scan.
-script: if [[ $compiler != kcc ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
+script: if [[ $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
