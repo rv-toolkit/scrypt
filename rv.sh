@@ -1,6 +1,5 @@
 #!/bin/sh
 set -x
-set -e
 
 # This is running under Ubuntu 16.04
 # Install necessary packages. 
