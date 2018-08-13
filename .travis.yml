@@ -39,7 +39,7 @@ before_install:
     fi
   # Otherwise, act normally.
   - if [[ $compiler != kcc ]]; then autoreconf -i; fi
-  - if [[ $compiler != kcc ]]; ./configure; fi
+  - if [[ $compiler != kcc ]]; then ./configure; fi
 # We can't use strict flags in CFLAGS as a general environment
 # variable, because that messes up ./configure and coverity-scan.
 script: if [[ $compiler != kcc ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
