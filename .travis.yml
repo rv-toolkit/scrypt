@@ -7,11 +7,11 @@ addons:
       - valgrind
 matrix:
   include:
-    # - compiler: gcc
-    #   env: CFLAGS_STRICT="-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-clobbered"
-    # - compiler: clang
-    #   env: CFLAGS_STRICT="-Wall -Wextra -Werror -Weverything -Wno-#warnings -Wno-pedantic -Wno-padded -Wno-format-nonliteral -Wno-disabled-macro-expansion -Wno-missing-noreturn -Wno-reserved-id-macro -Wno-cast-align"
-    - env: KCC=true
+    - compiler: gcc
+      env: CFLAGS_STRICT="-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-clobbered"
+    - compiler: clang
+      env: CFLAGS_STRICT="-Wall -Wextra -Werror -Weverything -Wno-#warnings -Wno-pedantic -Wno-padded -Wno-format-nonliteral -Wno-disabled-macro-expansion -Wno-missing-noreturn -Wno-reserved-id-macro -Wno-cast-align"
+    - env: KCC=true # We created this environment variable to skip unnecessary scripts in this config file.
 env:
   global:
     # Some projects need -std=c99 to specify library support for ./configure
@@ -42,4 +42,4 @@ before_install:
   - if [[ ! $KCC ]]; then ./configure; fi
 # We can't use strict flags in CFLAGS as a general environment
 # variable, because that messes up ./configure and coverity-scan.
-script: if [[ ! $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else echo DIRRRRRRR = $(pwd); bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
+script: if [[ ! $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-11; fi
