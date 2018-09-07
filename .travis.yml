@@ -42,4 +42,4 @@ before_install:
   - if [[ ! $KCC ]]; then ./configure; fi
 # We can't use strict flags in CFLAGS as a general environment
 # variable, because that messes up ./configure and coverity-scan.
-script: if [[ ! $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-08-31; fi
+script: if [[ ! $KCC ]]; then make CFLAGS="$CFLAGS $CFLAGS_STRICT" && make test USE_VALGRIND=1; else bash <(curl -s https://runtimeverification.com/toolkit/docker/bash) nightly-2018-09-06; fi
